@@ -1,9 +1,8 @@
 import React from 'react';
 import { useQuery } from 'react-query';
-import { Link } from 'react-router-dom';
 import IconClosed from '../components/IconClosed';
 import IconOpened from '../components/IconOpened';
-import CommentsIcon from '../components/CommentsIcon';
+import Issue from '../components/Issue';
 export default function Issues() {
   async function fetchIssues() {
     return fetch(
@@ -42,21 +41,7 @@ export default function Issues() {
           </div>
           <div className="issues-table">
             {issues.map(issue => (
-              <div key={issue.id} className="issues-entry">
-                <div className="issues-entry-title-container">
-                  <IconOpened />
-                  <div className="issues-title">
-                    <Link to={`/details/${issue.id}`}>{issue.title}</Link>
-                    <div className="issues-title-details">
-                      #{issue.number} opened 10 hours ago by {issue.user.login}
-                    </div>
-                  </div>
-                </div>
-                <a href="#" className="comments-count-container">
-                  <CommentsIcon />
-                  <div class="comments-count">{issue.comments}</div>
-                </a>
-              </div>
+              <Issue issue={issue}></Issue>
             ))}
           </div>
         </div>
