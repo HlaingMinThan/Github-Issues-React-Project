@@ -1,13 +1,16 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 
 export default function Details() {
   const fakeArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  let { id } = useParams();
+  console.log(id);
   return (
     <div className="comments-container">
       <h2>
         [DevTools] Improve named hooks detection <span>#21782</span>
       </h2>
-      <div class="issue-details">
+      <div className="issue-details">
         <a href="">bvaughn</a> opened this issue 6 days ago
       </div>
 

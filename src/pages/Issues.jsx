@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Issues() {
   const fakeArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -62,7 +63,9 @@ export default function Issues() {
                 ></path>
               </svg>
               <div className="issues-title">
-                <a href="#">Issue with running single test with jest command</a>
+                <Link to={`/details/1`}>
+                  Issue with running single test with jest command
+                </Link>
                 <div className="issues-title-details">
                   #11185 opened 10 hours ago by B3nnyL
                 </div>

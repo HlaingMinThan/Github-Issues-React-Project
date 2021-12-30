@@ -3,13 +3,16 @@ import './App.css';
 import Issues from './pages/Issues';
 import Navbar from './components/Navbar';
 import Details from './pages/Details';
+import { Routes, Route } from 'react-router-dom';
 function App() {
   return (
     <>
       <Navbar></Navbar>
       <div className="container">
-        <Issues></Issues>
-        <Details></Details>
+        <Routes>
+          <Route path="/" element={<Issues />} />
+          <Route path="details/:id" element={<Details />} />
+        </Routes>
       </div>
     </>
   );
