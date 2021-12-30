@@ -15,12 +15,31 @@ export default function Issues() {
         return err;
       });
   }
+  async function fetchIssuesOpen() {
+    return fetch(
+      `https://api.github.com/search/issues?q=repo:facebook/create-react-app+type:issue+state:open&per_page=1`
+    ).then(response => response.json());
+  }
+
+  async function fetchIssuesClosed() {
+    return fetch(
+      `https://api.github.com/search/issues?q=repo:facebook/create-react-app+type:issue+state:closed&per_page=1`
+    ).then(response => response.json());
+  }
 
   const {
     data: issues,
     isSuccess,
     isLoading,
   } = useQuery('issues', fetchIssues);
+  const { data: issuesOpen, isSuccess: isIssuesOpenSuccess } = useQuery(
+    'issuesOpen',
+    fetchIssuesOpen
+  );
+  const { data: issuesClosed, isSuccess: isIssuesClosedSuccess } = useQuery(
+    'issuesClosed',
+    fetchIssuesClosed
+  );
   return (
     <>
       {isLoading && <span>loading ...</span>}
@@ -31,11 +50,15 @@ export default function Issues() {
             <div className="open-closed-buttons">
               <button>
                 <IconOpened />
-                <span className="font-bold">96 Open</span>
+                <span className="font-bold">
+                  {isIssuesOpenSuccess && issuesOpen.total_count} Open
+                </span>
               </button>
               <button>
                 <IconClosed />
-                <span className="">254 Closed</span>
+                <span className="">
+                  {isIssuesClosedSuccess && issuesClosed.total_count} Closed
+                </span>
               </button>
             </div>
           </div>
