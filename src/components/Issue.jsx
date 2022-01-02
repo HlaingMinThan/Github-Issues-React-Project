@@ -2,11 +2,13 @@ import React from 'react';
 import CommentsIcon from '../components/CommentsIcon';
 import IconOpened from '../components/IconOpened';
 import { Link } from 'react-router-dom';
-export default function Issue({ issue }) {
+import IconClosed from './IconClosed';
+export default function Issue({ issue, filter }) {
   return (
     <div key={issue.id} className="issues-entry">
       <div className="issues-entry-title-container">
-        <IconOpened />
+        {filter === 'open' && <IconOpened />}
+        {filter === 'closed' && <IconClosed />}
         <div className="issues-title">
           <Link to={`/details/${issue.id}`}>{issue.title}</Link>
           <div className="issues-title-details">
@@ -14,9 +16,9 @@ export default function Issue({ issue }) {
           </div>
         </div>
       </div>
-      <a href="#" className="comments-count-container">
+      <a className="comments-count-container">
         <CommentsIcon />
-        <div class="comments-count">{issue.comments}</div>
+        <div className="comments-count">{issue.comments}</div>
       </a>
     </div>
   );

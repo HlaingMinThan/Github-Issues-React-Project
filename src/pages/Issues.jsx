@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import IconClosed from '../components/IconClosed';
 import IconOpened from '../components/IconOpened';
 import Issue from '../components/Issue';
 export default function Issues() {
-  async function fetchIssues() {
+  const [filter, setFilter] = useState('open');
+  async function fetchIssues({ queryKey }) {
+    let [key, filter] = queryKey;
     return fetch(
-      'https://api.github.com/repos/facebook/create-react-app/issues?per_page=10&state=open'
+      `https://api.github.com/repos/facebook/create-react-app/issues?per_page=10&state=${filter}`
     )
       .then(result => {
         return result.json();
@@ -31,7 +33,7 @@ export default function Issues() {
     data: issues,
     isSuccess,
     isLoading,
-  } = useQuery('issues', fetchIssues);
+  } = useQuery(['issues', filter], fetchIssues);
   const { data: issuesOpen, isSuccess: isIssuesOpenSuccess } = useQuery(
     'issuesOpen',
     fetchIssuesOpen
@@ -46,15 +48,15 @@ export default function Issues() {
       {isSuccess && (
         <div className="issues-container">
           <div className="issues-heading">
-            <a href="#">facebook / create-react-app</a>
+            <a>facebook / create-react-app</a>
             <div className="open-closed-buttons">
-              <button>
+              <button onClick={() => setFilter('open')}>
                 <IconOpened />
                 <span className="font-bold">
                   {isIssuesOpenSuccess && issuesOpen.total_count} Open
                 </span>
               </button>
-              <button>
+              <button onClick={() => setFilter('closed')}>
                 <IconClosed />
                 <span className="">
                   {isIssuesClosedSuccess && issuesClosed.total_count} Closed
@@ -64,7 +66,7 @@ export default function Issues() {
           </div>
           <div className="issues-table">
             {issues.map(issue => (
-              <Issue issue={issue}></Issue>
+              <Issue issue={issue} filter={filter} key={issue.id}></Issue>
             ))}
           </div>
         </div>
