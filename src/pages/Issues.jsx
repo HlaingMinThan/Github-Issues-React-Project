@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import IconClosed from '../components/IconClosed';
 import IconOpened from '../components/IconOpened';
 import Issue from '../components/Issue';
+import SkeletonElement from '../skeleton/SkeletonElement';
 export default function Issues() {
   const [filter, setFilter] = useState('open');
   async function fetchIssues({ queryKey }) {
@@ -44,6 +45,11 @@ export default function Issues() {
   );
   return (
     <>
+      <SkeletonElement type="title" />
+      <SkeletonElement type="text" />
+      <SkeletonElement type="avatar" />
+      <SkeletonElement type="thumbnail" />
+
       {isLoading && <span>loading ...</span>}
       {isSuccess && (
         <div className="issues-container">
