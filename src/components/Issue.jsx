@@ -3,6 +3,8 @@ import CommentsIcon from '../components/CommentsIcon';
 import IconOpened from '../components/IconOpened';
 import { Link } from 'react-router-dom';
 import IconClosed from './IconClosed';
+import moment from 'moment';
+
 export default function Issue({ issue, filter }) {
   return (
     <div key={issue.id} className="issues-entry">
@@ -10,9 +12,10 @@ export default function Issue({ issue, filter }) {
         {filter === 'open' && <IconOpened />}
         {filter === 'closed' && <IconClosed />}
         <div className="issues-title">
-          <Link to={`/details/${issue.id}`}>{issue.title}</Link>
+          <Link to={`/details/${issue.number}`}>{issue.title}</Link>
           <div className="issues-title-details">
-            #{issue.number} opened 10 hours ago by {issue.user.login}
+            #{issue.number} opened {moment(issue.created_at).fromNow()} by{' '}
+            {issue.user.login}
           </div>
         </div>
       </div>

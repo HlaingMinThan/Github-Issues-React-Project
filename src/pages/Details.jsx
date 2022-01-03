@@ -1,68 +1,59 @@
 import React from 'react';
+import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
-
+import SkeletonIssueDetail from '../skeleton/SkeletonIssueDetail';
+import CommentsSection from '../components/CommentsSection';
+import moment from 'moment';
 export default function Details() {
-  const fakeArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  let { id } = useParams();
-  console.log(id);
+  const { id } = useParams();
+  async function fetchIssue({ queryKey }) {
+    let [key, id] = queryKey;
+    return fetch(
+      `https://api.github.com/repos/facebook/create-react-app/issues/${id}`
+    ).then(response => response.json());
+  }
+  const {
+    data: issue,
+    isSuccess,
+    isLoading,
+  } = useQuery(['issue', id], fetchIssue);
   return (
-    <div className="comments-container">
-      <h2>
-        [DevTools] Improve named hooks detection <span>#21782</span>
-      </h2>
-      <div className="issue-details">
-        <a href="">bvaughn</a> opened this issue 6 days ago
-      </div>
+    <>
+      {isLoading && <SkeletonIssueDetail />}
+      {isSuccess && (
+        <div className="comments-container">
+          <h2>
+            {issue.title} <span>#{issue.number}</span>
+          </h2>
+          <div className="issue-details">
+            <a href={issue.user.html_url}>{issue.user.login}</a> opened this
+            issue {moment(issue.created_at).fromNow()}
+          </div>
 
-      <div className="comment-container">
-        <a href="#">
-          <img
-            src="https://avatars.githubusercontent.com/u/69965670?s=88&v=4"
-            alt="avatar"
-            className="avatar"
+          <div className="comment-container">
+            <a href="#">
+              <img
+                src={issue.user.avatar_url}
+                alt="avatar"
+                className="avatar"
+              />
+            </a>
+            <div className="comment">
+              <div className="comment-heading">
+                <a href={issue.user.html_url}>{issue.user.login}</a> commented{' '}
+                {moment(issue.created_at).fromNow()}
+              </div>
+              <div className="comment-body">{issue.body}</div>
+            </div>
+          </div>
+
+          <div className="border"></div>
+          <CommentsSection
+            issueNumber={issue.number}
+            commentsCount={issue.comments}
           />
-        </a>
-        <div className="comment">
-          <div className="comment-heading">
-            <a href="#">mdaj06</a> commented 4 days ago
-          </div>
-          <div className="comment-body">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum sint
-            optio et sit nemo expedita excepturi corrupti delectus? Unde nemo
-            eos quo, similique minima, maiores perspiciatis deserunt, eligendi
-            eum consequuntur vero quam non laboriosam illum ipsam ex pariatur
-            voluptatum. Cumque itaque dolores nostrum optio perspiciatis
-            quibusdam voluptatibus animi tempore labore.
-          </div>
         </div>
-      </div>
-
-      <div className="border"></div>
-
-      {fakeArray.map(item => (
-        <div key={item} className="comment-container">
-          <a href="#">
-            <img
-              src="https://avatars.githubusercontent.com/u/69965670?s=88&v=4"
-              alt="avatar"
-              className="avatar"
-            />
-          </a>
-          <div className="comment">
-            <div className="comment-heading">
-              <a href="#">mdaj06</a> commented 4 days ago
-            </div>
-            <div className="comment-body">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum
-              sint optio et sit nemo expedita excepturi corrupti delectus? Unde
-              nemo eos quo, similique minima, maiores perspiciatis deserunt,
-              eligendi eum consequuntur vero quam non laboriosam illum ipsam ex
-              pariatur voluptatum. Cumque itaque dolores nostrum optio
-              perspiciatis quibusdam voluptatibus animi tempore labore.
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
+      )}
+    </>
   );
 }
