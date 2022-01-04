@@ -10,6 +10,7 @@ export default function Comments({ issueNumber, commentsCount }) {
     data: comments,
   } = useQuery(['comments', issueNumber], fetchComments);
 
+  let commentsArray = new Array(commentsCount).fill();
   async function fetchComments() {
     return fetch(
       `https://api.github.com/repos/facebook/create-react-app/issues/${issueNumber}/comments`
@@ -18,14 +19,15 @@ export default function Comments({ issueNumber, commentsCount }) {
 
   return (
     <>
-      {isLoading && (
-        <div className="skeleton-wrapper">
-          <SkeletonElement type="title" />
-          <SkeletonElement type="text" />
-          <SkeletonElement type="text" />
-          <SkeletonElement type="text" />
-        </div>
-      )}
+      {isLoading &&
+        commentsArray.map((comment, i) => (
+          <div className="skeleton-wrapper" key={i}>
+            <SkeletonElement type="title" />
+            <SkeletonElement type="text" />
+            <SkeletonElement type="text" />
+            <SkeletonElement type="text" />
+          </div>
+        ))}
       {isSuccess &&
         comments.map(comment => (
           <div key={comment.id} className="comment-container">
