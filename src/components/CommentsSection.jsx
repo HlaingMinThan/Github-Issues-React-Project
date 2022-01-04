@@ -2,6 +2,7 @@ import React from 'react';
 import { useQuery } from 'react-query';
 import moment from 'moment';
 import SkeletonElement from '../skeleton/SkeletonElement';
+import ReactMarkdown from 'react-markdown';
 export default function Comments({ issueNumber, commentsCount }) {
   const {
     isLoading,
@@ -40,7 +41,9 @@ export default function Comments({ issueNumber, commentsCount }) {
                 <a href={comment.user.html_url}>{comment.user.login}</a>{' '}
                 commented {moment(comment.created_at).fromNow()}
               </div>
-              <div className="comment-body markdown-body">{comment.body}</div>
+              <div className="comment-body markdown-body">
+                <ReactMarkdown children={comment.body} />
+              </div>
             </div>
           </div>
         ))}

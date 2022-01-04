@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import SkeletonIssueDetail from '../skeleton/SkeletonIssueDetail';
 import CommentsSection from '../components/CommentsSection';
+import ReactMarkdown from 'react-markdown';
 import moment from 'moment';
 export default function Details() {
   const { id } = useParams();
@@ -43,7 +44,9 @@ export default function Details() {
                 <a href={issue.user.html_url}>{issue.user.login}</a> commented{' '}
                 {moment(issue.created_at).fromNow()}
               </div>
-              <div className="comment-body">{issue.body}</div>
+              <div className="comment-body">
+                <ReactMarkdown children={issue.body}></ReactMarkdown>
+              </div>
             </div>
           </div>
 

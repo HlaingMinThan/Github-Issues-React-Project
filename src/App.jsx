@@ -3,6 +3,7 @@ import './App.css';
 import Issues from './pages/Issues';
 import Navbar from './components/Navbar';
 import Details from './pages/Details';
+import './assets/github-markdown.css';
 import { Routes, Route } from 'react-router-dom';
 function App() {
   return (
