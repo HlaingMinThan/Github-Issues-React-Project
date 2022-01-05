@@ -19,10 +19,13 @@ export default function Issue({ issue, filter }) {
           </div>
         </div>
       </div>
-      <a className="comments-count-container">
+      <Link
+        to={`/details/${issue.number}`}
+        className="comments-count-container"
+      >
         <CommentsIcon />
         <div className="comments-count">{issue.comments}</div>
-      </a>
+      </Link>
     </div>
   );
 }

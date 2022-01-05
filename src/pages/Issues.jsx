@@ -7,7 +7,7 @@ import SkeletonIssues from '../skeleton/SkeletonIssues';
 export default function Issues() {
   const [filter, setFilter] = useState('open');
   async function fetchIssues({ queryKey }) {
-    let [key, filter] = queryKey;
+    let filter = queryKey[1];
     return fetch(
       `https://api.github.com/repos/facebook/create-react-app/issues?per_page=10&state=${filter}`
     )
@@ -49,7 +49,9 @@ export default function Issues() {
       {isSuccess && (
         <div className="issues-container">
           <div className="issues-heading">
-            <a>facebook / create-react-app</a>
+            <a href="https://github.com/facebook/create-react-app">
+              facebook / create-react-app
+            </a>
             <div className="open-closed-buttons">
               <button onClick={() => setFilter('open')}>
                 <IconOpened />

@@ -8,7 +8,7 @@ import moment from 'moment';
 export default function Details() {
   const { id } = useParams();
   async function fetchIssue({ queryKey }) {
-    let [key, id] = queryKey;
+    let id = queryKey[1];
     return fetch(
       `https://api.github.com/repos/facebook/create-react-app/issues/${id}`
     ).then(response => response.json());
@@ -32,7 +32,7 @@ export default function Details() {
           </div>
 
           <div className="comment-container">
-            <a href="#">
+            <a href={issue.user.html_url}>
               <img
                 src={issue.user.avatar_url}
                 alt="avatar"
