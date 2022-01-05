@@ -6,7 +6,7 @@ This project is using react,react-query,react-router,react markdown,etc for fron
 
 ## Live
 
-https://hlaingminthan.github.io/Github-Issues-React-Project/
+https://github-issues-react-project.vercel.app/
 
 
 ## Screenshots
